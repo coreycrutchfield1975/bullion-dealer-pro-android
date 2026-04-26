@@ -1,0 +1,31 @@
+name: Build Android TWA APK
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager "build-tools;34.0.0"
+      - run: chmod +x gradlew
+      - run: ./gradlew assembleRelease --no-daemon
+       - name: Sign APK
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+          BUILD_TOOLS=$ANDROID_SDK_ROOT/build-tools/34.0.0
+          APK=$(find build/outputs/apk/release -name "*.apk" | head -1)
+          $BUILD_TOOLS/zipalign -v -p 4 "$APK" build/outputs/apk/release/signed-aligned.apk
+          $BUILD_TOOLS/apksigner sign \
+            --ks keystore.jks \
+            --ks-key-alias "bulliondealerpro" \
+            --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} \
+            --key-pass pass:${{ secrets.KEY_PASSWORD }} \
+            --out build/outputs/apk/release/bullion-dealer-pro-release.apk \
+            build/outputs/apk/release/signed-aligned.apk
