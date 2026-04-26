@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.2'
+    }
+}
 import groovy.xml.MarkupBuilder
 
-plugins {
-    id 'com.android.application'
-}
-
+apply plugin: '[com.android.app](https://com.android.app)lication'
 def twaManifest = [
     applicationId: 'com.bulliondealerpro.twa',
     hostName: 'bulliondealerpro.com', // The domain being opened in the TWA.
@@ -202,9 +207,9 @@ task generateShorcutsFile {
 preBuild.dependsOn(generateShorcutsFile)
 
 repositories {
-    
+    google()
+    mavenCentral()
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     
