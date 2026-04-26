@@ -29,3 +29,4 @@ jobs:
         with:
           name: bullion-dealer-pro-release
           path: build/outputs/apk/release/bullion-dealer-pro-release.apk
+          
