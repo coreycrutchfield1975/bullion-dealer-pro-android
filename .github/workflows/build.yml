@@ -22,7 +22,7 @@ jobs:
           BUILD_TOOLS=$ANDROID_SDK_ROOT/build-tools/34.0.0
           APK=$(find build/outputs/apk/release -name "*.apk" | head -1)
           $BUILD_TOOLS/zipalign -v -p 4 "$APK" build/outputs/apk/release/signed-aligned.apk
-          $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias bulliondealerpro.com https://bulliondealerpro.com --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out build/outputs/apk/release/bullion-dealer-pro-release.apk build/outputs/apk/release/signed-aligned.apk
+          $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias bulliondealerpro.com --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out build/outputs/apk/release/bullion-dealer-pro-release.apk build/outputs/apk/release/signed-aligned.apk
       - uses: actions/upload-artifact@v4
         with:
           name: bullion-dealer-pro-release
