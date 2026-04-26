@@ -17,10 +17,12 @@ jobs:
       - run: chmod +x gradlew
       - run: ./gradlew assembleRelease --no-daemon
       - name: Sign APK
-        run: |
+       run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
           BUILD_TOOLS=$ANDROID_SDK_ROOT/build-tools/34.0.0
-          APK=$(find build/outputs/apk/release -name "*.apk" | grep -v signed | head -1)
+          echo "All APK files found:"
+          find build/outputs/apk -name "*.apk"
+          APK=$(find build/outputs/apk/release -name "*-release-unsigned.apk" | head -1)
           echo "Signing APK: $APK"
           $BUILD_TOOLS/zipalign -v -p 4 "$APK" build/outputs/apk/release/signed-aligned.apk
           $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias "bulliondealerpro" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out build/outputs/apk/release/bullion-dealer-pro-release.apk build/outputs/apk/release/signed-aligned.apk
