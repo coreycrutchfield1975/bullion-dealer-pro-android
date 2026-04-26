@@ -16,7 +16,7 @@ jobs:
       - run: sdkmanager "build-tools;34.0.0"
       - run: chmod +x gradlew
       - run: ./gradlew assembleRelease --no-daemon
-    - name: Find APK
+      - name: Find APK
         run: |
           echo "=== Full build output structure ==="
           find build -type f 2>/dev/null || echo "No build folder found"
@@ -33,4 +33,3 @@ jobs:
         with:
           name: bullion-dealer-pro-release
           path: build/outputs/apk/release/bullion-dealer-pro-release.apk
-          
