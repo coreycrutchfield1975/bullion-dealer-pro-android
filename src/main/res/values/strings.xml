@@ -16,14 +16,9 @@
 -->
 <resources>
 
-  <string name="app_name">Metal Spot Prices &amp; Dealer Tools</string>
-  <string name="appName">Metal Spot Prices &amp; Dealer Tools</string>
-  <string name="launcherName">Metal Spot Prices</string>
-
-  <!--
-    The "fullscreen" and "fullscreen-sticky" TWA manifest values correspond to "immersive" and "sticky-immersive"
-    AndroidManifest values.
-  -->
+  <string name="app_name">Spot Prices &amp; Dealer Tools</string>
+  <string name="appName">Spot Prices &amp; Dealer Tools</string>
+  <string name="launcherName">Spot Prices</string>
 
   <!--
     This variable below expresses the relationship between the app and the site,
