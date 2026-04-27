@@ -15,13 +15,15 @@
      limitations under the License.
 -->
 <resources>
-  
+
+  <string name="app_name">Metal Spot Prices &amp; Dealer Tools</string>
+  <string name="appName">Metal Spot Prices &amp; Dealer Tools</string>
+  <string name="launcherName">Metal Spot Prices</string>
 
   <!--
     The "fullscreen" and "fullscreen-sticky" TWA manifest values correspond to "immersive" and "sticky-immersive"
     AndroidManifest values.
   -->
-  
 
   <!--
     This variable below expresses the relationship between the app and the site,
@@ -37,6 +39,6 @@
             \"site\": \"https://bulliondealerpro.com\"
         }
     }]
-    
-  </string>  
+  </string>
+
 </resources>
