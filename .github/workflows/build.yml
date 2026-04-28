@@ -18,6 +18,8 @@ jobs:
       - run: sdkmanager "build-tools;34.0.0"
       - run: chmod +x gradlew
       - run: ./gradlew assembleRelease bundleRelease --no-daemon
+      - name: Find all build outputs
+        run: find build/outputs -type f || echo "Nothing in build/outputs"
       - name: Sign APK
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
@@ -33,3 +35,4 @@ jobs:
         with:
           name: bullion-dealer-pro-release-aab
           path: build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
