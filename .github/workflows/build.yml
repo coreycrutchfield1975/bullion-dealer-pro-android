@@ -25,7 +25,7 @@ jobs:
           APK=$(find build -name "*.apk" | grep -v signed | head -1)
           $BUILD_TOOLS/zipalign -v -p 4 "$APK" build/outputs/apk/release/signed-aligned.apk
           $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias "bulliondealerpro" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out build/outputs/apk/release/bullion-dealer-pro-release.apk build/outputs/apk/release/signed-aligned.apk
-       - name: Sign AAB
+      - name: Sign AAB
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
           echo "=== Finding AAB ==="
