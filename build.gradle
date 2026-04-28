@@ -87,11 +87,20 @@ android {
         resValue "string", "fallbackType", twaManifest.fallbackType
         resValue "bool", "enableSiteSettingsShortcut", twaManifest.enableSiteSettingsShortcut
         resValue "string", "orientation", twaManifest.orientation
+   signingConfigs {
+    release {
+        storeFile file(System.getenv("KEYSTORE_PATH") ?: "keystore.jks")
+        storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
+        keyAlias "bulliondealerpro"
+        keyPassword System.getenv("KEY_PASSWORD") ?: ""
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-        }
+}
+buildTypes {
+    release {
+        minifyEnabled true
+        signingConfig signingConfigs.release
+    }
+}
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

@@ -16,19 +16,18 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: sdkmanager "build-tools;34.0.0"
-      - run: chmod +x gradlew
-      - run: ./gradlew assembleRelease bundleRelease --no-daemon
-      - name: Sign APK
+      - name: Decode keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
-          BUILD_TOOLS=$ANDROID_SDK_ROOT/build-tools/34.0.0
-          APK=build/outputs/apk/release/bullion-dealer-pro-android-release-unsigned.apk
-          $BUILD_TOOLS/zipalign -v -p 4 "$APK" aligned.apk
-          $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias "bulliondealerpro" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out bullion-dealer-pro-release.apk aligned.apk
+          echo "KEYSTORE_PATH=$PWD/keystore.jks" >> $GITHUB_ENV
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+      - run: chmod +x gradlew
+      - run: ./gradlew assembleRelease bundleRelease --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: bullion-dealer-pro-release-apk
-          path: bullion-dealer-pro-release.apk
+          path: build/outputs/apk/release/bullion-dealer-pro-android-release-unsigned.apk
       - uses: actions/upload-artifact@v4
         with:
           name: bullion-dealer-pro-release-aab
