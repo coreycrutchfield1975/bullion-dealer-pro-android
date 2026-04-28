@@ -18,15 +18,18 @@ jobs:
       - run: sdkmanager "build-tools;34.0.0"
       - run: chmod +x gradlew
       - run: ./gradlew assembleRelease bundleRelease --no-daemon
+      - name: Show build outputs
+        run: find build/outputs -type f
       - name: Sign APK and AAB
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
           BUILD_TOOLS=$ANDROID_SDK_ROOT/build-tools/34.0.0
-          APK=$(find build -name "*.apk" | grep -v signed | head -1)
+          APK=$(find build/outputs/apk -name "*.apk" | grep -v signed | head -1)
+          echo "APK: $APK"
           $BUILD_TOOLS/zipalign -v -p 4 "$APK" build/outputs/apk/release/signed-aligned.apk
           $BUILD_TOOLS/apksigner sign --ks keystore.jks --ks-key-alias "bulliondealerpro" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --key-pass pass:${{ secrets.KEY_PASSWORD }} --out build/outputs/apk/release/bullion-dealer-pro-release.apk build/outputs/apk/release/signed-aligned.apk
-          AAB=$(find build -name "*.aab" | head -1)
-          echo "AAB found: $AAB"
+          AAB=$(find build/outputs/bundle -name "*.aab" | head -1)
+          echo "AAB: $AAB"
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} "$AAB" bulliondealerpro
           cp "$AAB" build/outputs/bundle/release/bullion-dealer-pro-release.aab
       - uses: actions/upload-artifact@v4
