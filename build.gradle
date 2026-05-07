@@ -55,8 +55,8 @@ android {
         applicationId "com.bulliondealerpro.twa"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
 
         resValue "string", "appName", twaManifest.name
         resValue "string", "launcherName", twaManifest.launcherName
